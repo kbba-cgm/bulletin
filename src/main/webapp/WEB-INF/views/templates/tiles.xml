@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+<tiles-definitions>  
+    <definition name="main.template"  
+        template="/WEB-INF/views/templates/layouts.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="/WEB-INF/views/templates/components/header.jsp" /> 
+        <put-attribute name="sideBar" value="/WEB-INF/views/templates/components/side-bar.jsp" /> 
+        <put-attribute name="body" value="" />  
+        <put-attribute name="footer" value="/WEB-INF/views/templates/components/footer.jsp" />  
+    </definition>
+       
+    <definition name="home" extends="main.template">  
+        <put-attribute name="title" value="Home" />  
+        <put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />  
+    </definition>
+    
+    <definition name="all-post" extends="main.template">  
+        <put-attribute name="title" value="All Post" />  
+        <put-attribute name="body" value="/WEB-INF/views/pages/all-post.jsp" />  
+    </definition>
+    
+    <definition name="create-post" extends="main.template">  
+        <put-attribute name="title" value="Create Post" />  
+        <put-attribute name="body" value="/WEB-INF/views/pages/create-post.jsp" />  
+    </definition>
+    
+     <definition name="edit-post" extends="main.template">  
+        <put-attribute name="title" value="Edit Post" />  
+        <put-attribute name="body" value="/WEB-INF/views/pages/edit-post.jsp" />  
+    </definition>
+    
+     <definition name="detail-post" extends="main.template">  
+        <put-attribute name="title" value="Detail Post" />  
+        <put-attribute name="body" value="/WEB-INF/views/pages/detail-post.jsp" />  
+    </definition>
+    
+    
+    <!-- <definition name="hello" extends="main.template">  
+        <put-attribute name="title" value="Hello Spring MVC" />  
+        <put-attribute name="body" value="/WEB-INF/jsp/hello.jsp" />  
+    </definition>   --> 
+</tiles-definitions>
