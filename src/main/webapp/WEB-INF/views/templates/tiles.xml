@@ -35,11 +35,23 @@
      <definition name="detail-post" extends="main.template">  
         <put-attribute name="title" value="Detail Post" />  
         <put-attribute name="body" value="/WEB-INF/views/pages/detail-post.jsp" />  
-    </definition>
+    </definition> 
     
+    <definition name="view-profile" extends="main.template">  
+        <put-attribute name="title" value="Profile Detail" />  
+        <put-attribute name="body" value="/WEB-INF/views/pages/view-profile.jsp" />  
+    </definition>  
+    
+    <definition name="edit-profile" extends="main.template">  
+        <put-attribute name="title" value="Profile Edit" />  
+        <put-attribute name="body" value="/WEB-INF/views/pages/edit-profile.jsp" />  
+    </definition> 
+    
+    <definition name="denied-page" template="/WEB-INF/views/pages/denied-page.jsp">
+    </definition> 
     
     <!-- <definition name="hello" extends="main.template">  
         <put-attribute name="title" value="Hello Spring MVC" />  
         <put-attribute name="body" value="/WEB-INF/jsp/hello.jsp" />  
-    </definition>   --> 
+    </definition>   -->    
 </tiles-definitions>

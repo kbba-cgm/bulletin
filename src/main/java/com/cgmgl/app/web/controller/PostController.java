@@ -1,28 +1,50 @@
 package com.cgmgl.app.web.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.cgmgl.app.bl.dto.CategoryDto;
 import com.cgmgl.app.bl.dto.PostDto;
+import com.cgmgl.app.bl.service.CategoryService;
 import com.cgmgl.app.bl.service.PostService;
+import com.cgmgl.app.bl.service.UserService;
+import com.cgmgl.app.bl.service.auth.MyAuthenticationService;
+import com.cgmgl.app.persistence.entity.Category;
 import com.cgmgl.app.persistence.entity.Post;
+import com.cgmgl.app.persistence.entity.User;
 
 @Controller
 public class PostController {
 	@Autowired
 	PostService postService;
+	
+	@Autowired
+	CategoryService categoryService;
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	MyAuthenticationService myAuthenticationService;
 
 	@GetMapping("/")
 	public String home(ModelMap m) {
@@ -34,9 +56,11 @@ public class PostController {
 
 	@GetMapping("/post/all")
 	public String allPosts(ModelMap m) {
-		List<Post> ownPosts = postService.getOwnPost();
+		System.out.println(myAuthenticationService.getPrincipal().getId());
+		List<Post> ownPosts = postService.getOwnPost(myAuthenticationService.getPrincipal().getId());
+		User LoggedInUser = new User(userService.getUserById(myAuthenticationService.getPrincipal().getId()));
 		if (!ownPosts.isEmpty())
-			m.addAttribute("posts", ownPosts);
+			m.addAttribute("posts", LoggedInUser.getPosts());
 
 		return "all-post";
 	}
@@ -45,17 +69,27 @@ public class PostController {
 	public String createPost(ModelMap m) {
 		PostDto postDto = new PostDto();
 		m.addAttribute("postDto", postDto);
+		m.addAttribute("categories", categoryService.getAllCategory());
+		
 		return "create-post";
 	}
 
 	@PostMapping("/post/create")
-	public String storePost(@Valid @ModelAttribute("postDto") PostDto postDto, BindingResult br) {
+	public String storePost(@Valid @ModelAttribute("postDto") PostDto postDto, BindingResult br, Model m) {
 		if (br.hasErrors()) {
+			m.addAttribute("categories", categoryService.getAllCategory());
 			return "create-post";
-		} else {
-			Long id = postService.createPost(postDto);
-			return "redirect:/";
 		}
+		
+		LongStream categories_stream = Arrays.stream(postDto.getCategories_id());
+		List<Category> category_list = categories_stream.mapToObj(id -> categoryService.getCategoryById(id)).toList();
+		postDto.setCategories(category_list);
+		User LoggedInUser = new User(userService.getUserById(myAuthenticationService.getPrincipal().getId()));
+		postDto.setUser(LoggedInUser);
+		Long id = postService.createPost(postDto);
+		
+		return "redirect:/";
+
 	}
 
 	@GetMapping("/post/{id}")
@@ -67,15 +101,37 @@ public class PostController {
 
 	@GetMapping("/post/{id}/edit")
 	public String editPost(@PathVariable("id") long id, ModelMap m) {
-		System.out.println(id);
 		PostDto postDto = postService.getPostById(id);
+		int size = postDto.getCategories().size();
+		long[] ids = new long[size];
+		int i = 0;
+		
+		for (Category cat : postDto.getCategories()) {
+			ids[i++] = cat.getId();
+		}
+		postDto.setCategories_id(ids);
+		
+		m.addAttribute("categories", categoryService.getAllCategory());
 		m.addAttribute("postDto", postDto);
+		
 		return "edit-post";
 	}
 
 	@PostMapping("/post/edit")
-	public String editPost(@Valid @ModelAttribute("postDto") PostDto postDto, BindingResult br) {
+	public String editPost(@Valid @ModelAttribute("postDto") PostDto postDto, BindingResult br, Model m) {
+		if (br.hasErrors()) {
+			m.addAttribute("categories", categoryService.getAllCategory());
+			return "create-post";
+		}
+		
+		LongStream categories_stream = Arrays.stream(postDto.getCategories_id());
+		List<Category> category_list = categories_stream.mapToObj(id -> categoryService.getCategoryById(id)).toList();
+		postDto.setCategories(category_list);
+		User LoggedInUser = new User(userService.getUserById(myAuthenticationService.getPrincipal().getId()));
+		postDto.setUser(LoggedInUser);
+		
 		postService.updatePost(postDto);
+		
 		return "redirect:/post/all";
 	}
 	
@@ -84,4 +140,5 @@ public class PostController {
 		postService.deletePostById(id);
 		return "redirect:/post/all";
 	}
+
 }

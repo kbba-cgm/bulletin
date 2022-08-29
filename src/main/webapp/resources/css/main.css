@@ -254,8 +254,7 @@ a {
 	gap: 10px;
 }
 
-r
-.author img {
+.author .profile-pic-round {
 	margin-right: 0.5rem;
 }
 
@@ -294,6 +293,10 @@ r
 
 .justify-content-between {
 	justify-content: space-between;
+}
+
+.justify-content-around {
+	justify-content: space-around;
 }
 
 .align-item-between {

@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="main-content">
 	<c:choose>
@@ -10,7 +11,16 @@
 						<div class="card-content">
 							<div class="card-title">
 								<div class="post-category">
-									<span>#category</span> <span>#category</span>
+								<c:choose>
+									<c:when test="${ not empty post.categories }">
+										<c:forEach items="${ post.categories }" var="category">
+											<span>#${ category.name }</span>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<span></span>									
+									</c:otherwise>
+								</c:choose>
 								</div>
 								<div class="post-title"><a href="${pageContext.request.contextPath}/post/${post.id}">${ post.title }</a></div>
 								<div class="post-date">${ post.updated_at.toLocaleString() }</div>
@@ -33,7 +43,7 @@
 										<img class="profile-pic-round" height="30"
 											src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrgTTV3ncyk_ArHQftXJkKB4Jek24P9_sf4T7KQq_XKmVd50PGgwqaFVZJheRJSZCQ-fk&usqp=CAU"
 											alt="example picture">
-										<div>Kyaw Bo Bo Aung</div>
+										<div>${ post.user.name }</div>
 									</div>
 								</div>
 							</div>

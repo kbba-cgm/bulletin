@@ -1,12 +1,18 @@
 package com.cgmgl.app.bl.dto;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-import com.cgmgl.app.persistence.entity.Post;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cgmgl.app.persistence.entity.Category;
+import com.cgmgl.app.persistence.entity.Post;
+import com.cgmgl.app.persistence.entity.User;
 
 public class PostDto {
 	private long id;
@@ -18,18 +24,24 @@ public class PostDto {
 	private String content;
 
 	private boolean is_published = false;
+
+	@Valid
+	private List<Category> categories = new ArrayList<Category>();
 	
-	/* private List<String> categories; */
+	@Valid
+	private User user;
 
 	private Timestamp created_at;
 
 	private Timestamp updated_at;
+	
+	private long[] categories_id;
 
 	public PostDto() {
 		super();
 	}
 
-	public PostDto(Post post){
+	public PostDto(Post post) {
 		if (post == null) {
 			post = new Post();
 		}
@@ -37,11 +49,12 @@ public class PostDto {
 		title = post.getTitle();
 		content = post.getContent();
 		is_published = post.isIs_published();
-		/* categories = post.getCategories(); */
+		user = post.getUser();
+		categories = post.getCategories();
 		created_at = post.getCreated_at();
 		updated_at = post.getUpdated_at();
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -74,12 +87,21 @@ public class PostDto {
 		this.is_published = is_published;
 	}
 
-	/*
-	 * public List<String> getCategories() { return categories; }
-	 * 
-	 * public void setCategories(List<String> categories) { this.categories =
-	 * categories; }
-	 */
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
 
 	public Timestamp getCreated_at() {
 		return created_at;
@@ -95,6 +117,44 @@ public class PostDto {
 
 	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	public long[] getCategories_id() {
+		return categories_id;
+	}
+
+	public void setCategories_id(long[] categories_id) {
+		this.categories_id = categories_id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof PostDto)) {
+			return false;
+		}
+		PostDto other = (PostDto) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "PostDto [id=" + id + ", title=" + title + ", content=" + content + ", is_published=" + is_published
+				+ ", categories=" + categories + ", created_at=" + created_at + ", updated_at=" + updated_at
+				+ ", categories_id=" + Arrays.toString(categories_id) + "]";
 	}
 
 }

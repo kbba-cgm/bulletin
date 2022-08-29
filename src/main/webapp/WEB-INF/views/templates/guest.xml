@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+<tiles-definitions>  
+    <definition name="guest.template"  
+        template="/WEB-INF/views/templates/guest-layouts.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="" /> 
+        <put-attribute name="body" value="" />  
+        <!-- <put-attribute name="footer" value="/WEB-INF/views/templates/components/footer.jsp" />   -->
+    </definition>    
+        
+    <definition name="register" extends="guest.template">  
+        <put-attribute name="title" value="Register" />
+        <put-attribute name="header" value="/WEB-INF/views/templates/components/register-header.jsp" /> 
+        <put-attribute name="body" value="/WEB-INF/views/pages/auth/register.jsp" />  
+	</definition>
+	
+	<definition name="login" extends="guest.template">  
+        <put-attribute name="title" value="Register" />  
+        <put-attribute name="header" value="/WEB-INF/views/templates/components/login-header.jsp" /> 
+        <put-attribute name="body" value="/WEB-INF/views/pages/auth/login.jsp" />  
+	</definition>
+</tiles-definitions>

@@ -2,12 +2,14 @@ package com.cgmgl.app.persistence.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cgmgl.app.persistence.dao.AbstractDao;
 import com.cgmgl.app.persistence.dao.PostDao;
 import com.cgmgl.app.persistence.entity.Post;
+import com.cgmgl.app.persistence.entity.User;
 
 @Transactional
 @Repository
@@ -21,8 +23,11 @@ public class PostDaoImpl extends AbstractDao<Long, Post> implements PostDao {
 		return createQuery("from Post where is_published=true").getResultList();
 	}
 	
-	public List<Post> getOwnPost() {
-		return createQuery("from Post").getResultList();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<Post> getOwnPost(long id) {
+		Query query = getSession().createQuery("from Post p WHERE p.user.id = :id");
+		query.setParameter("id", id);
+		return (List<Post>) query.getResultList();
 	}
 
 	public Post getPostById(long id) {

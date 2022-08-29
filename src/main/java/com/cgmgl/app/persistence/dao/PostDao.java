@@ -12,7 +12,7 @@ public interface PostDao {
 	
 	public List<Post> getPublicPost();
 	
-	public List<Post> getOwnPost();
+	public List<Post> getOwnPost(long id);
 	
 	public Post getPostById(long id);
 	

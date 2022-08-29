@@ -1,5 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <div class="post-list-div">
 	<div class="post-list-header">
 		<div class="flex-box justify-content-between align-items-center">
@@ -51,9 +53,12 @@
 										<a class="action_icon edit"
 											href="${pageContext.request.contextPath}/post/${post.id}/edit"><i
 											class="fa-solid fa-pen-to-square"></i></a>
-										<form action="${pageContext.request.contextPath}/post/${post.id}/delete" method="post">
-										<button class="action_icon delete"><i class="fa-solid fa-trash"></i></button>											
-										</form>
+										<div class="action_icon delete" >
+											<form action="${pageContext.request.contextPath}/post/${post.id}/delete" method="post">
+												<sec:csrfInput />
+												<button><i class="fa-solid fa-trash"></i></button>											
+											</form>										
+										</div>
 									</div>
 								</td>
 							</tr>

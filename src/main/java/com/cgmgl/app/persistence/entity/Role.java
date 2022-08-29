@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.cgmgl.app.bl.dto.RoleDto;
 
 
 @Entity(name = "Role")
@@ -22,7 +24,7 @@ public class Role {
 	@Column(name = "name", nullable = false, columnDefinition = "VARCHAR(100)")
 	private String name;
 	
-	@ManyToMany
+	@OneToMany(mappedBy = "role")
 	private List<User> users;
 	
 	@Column(name = "created_at", updatable = false)
@@ -31,6 +33,19 @@ public class Role {
 	@Column(name = "updated_at")
 	private Timestamp updated_at;
 
+	public Role () {
+		
+	}
+	
+	public Role(RoleDto roleDto) {
+		this.id = roleDto.getId();
+		this.name = roleDto.getName();
+		this.users = roleDto.getUsers();
+		this.created_at = roleDto.getCreated_at();
+		this.updated_at = roleDto.getUpdated_at();
+	}
+	
+	
 	public long getId() {
 		return id;
 	}
@@ -69,6 +84,29 @@ public class Role {
 
 	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Role)) {
+			return false;
+		}
+		Role other = (Role) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
 	}
 
 }

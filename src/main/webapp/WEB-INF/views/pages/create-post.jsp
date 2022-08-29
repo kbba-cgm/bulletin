@@ -17,14 +17,7 @@
 					rows="10"></form:textarea>
 				<form:errors class="error-msg" path="content" />
 			</div>
-			<%-- <div class="form-group">
-				<label for="category">Category</label> 
-				<form:select class="form-select2 form-input" path="" id="category" multiple="multiple">  
-					<form:option class="form-option" value="work" label="Work"/>
-					<form:option class="form-option" value="rule" label="Rule"/>
-					<form:option class="form-option" value="general" label="General"/>
-				</form:select>
-			</div> --%>
+			<form:checkboxes items="${ categories }" path="categories_id" itemLabel="name" itemValue="id" />
 			<div class="published-div">
 				<form:checkbox id="is_published" path="is_published" value="1"/>  
 				<label for="is_published">Is published</label>

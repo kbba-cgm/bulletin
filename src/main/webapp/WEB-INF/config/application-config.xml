@@ -15,5 +15,22 @@
 	
 	<mvc:annotation-driven />
 	<mvc:resources location="/resources/" mapping="/resources/**" />
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/post/*/edit" />
+			<mvc:mapping path="/post/*/delete" />
+			<bean class="com.cgmgl.app.web.filter.posts.PostActionInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/post/*" />
+			<bean class="com.cgmgl.app.web.filter.posts.PostInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	
+	<bean id="MyBcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<bean id="NoOpEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder" />
+	<bean id="MyUserDetailService" class="com.cgmgl.app.bl.service.auth.MyUserDetailService" />
 
 </beans>

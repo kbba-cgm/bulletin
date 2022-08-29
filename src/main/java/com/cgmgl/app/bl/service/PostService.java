@@ -13,7 +13,7 @@ public interface PostService {
 	
 	public List<Post> getPublicPost();
 
-	public List<Post> getOwnPost();
+	public List<Post> getOwnPost(long id);
 	
 	public PostDto getPostById(long id);
 

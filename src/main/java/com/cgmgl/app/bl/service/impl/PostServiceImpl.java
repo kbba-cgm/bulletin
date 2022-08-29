@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cgmgl.app.bl.dto.PostDto;
+import com.cgmgl.app.bl.dto.auth.AuthUser;
 import com.cgmgl.app.bl.service.PostService;
 import com.cgmgl.app.persistence.dao.PostDao;
 import com.cgmgl.app.persistence.entity.Post;
@@ -27,8 +28,8 @@ public class PostServiceImpl implements PostService {
 		return postDao.getPublicPost();
 	}
 	
-	public List<Post> getOwnPost() {
-		return postDao.getOwnPost();
+	public List<Post> getOwnPost(long id) {
+		return postDao.getOwnPost(id);
 	}
 
 	public PostDto getPostById(long id) {
@@ -62,7 +63,8 @@ public class PostServiceImpl implements PostService {
 		post.setContent(postDto.getContent());
 		post.setTitle(postDto.getTitle());
 		post.setIs_published(postDto.isIs_published());
-		/* post.setCategories(postDto.getCategories()); */
+		post.setUser(postDto.getUser());
+		post.setCategories(postDto.getCategories()); 
 		post.setCreated_at(postDto.getCreated_at());
 		post.setUpdated_at(postDto.getUpdated_at());
 

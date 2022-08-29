@@ -9,10 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+
+import com.cgmgl.app.bl.dto.UserDto;
 
 @Entity(name = "User")
 @Table(name = "users")
@@ -28,14 +30,17 @@ public class User {
 	@Email
 	private String email;
 
-	@Column(name = "password", nullable = false)
+	@Column(name = "password")
 	private String password;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<Post> posts;
 
-	@ManyToMany(mappedBy = "users")
-	private List<Role> roles;
+	@ManyToOne
+	private Role role;
+	
+	@Column(name = "photo")
+	private String photo;
 
 	@Column(name = "created_at", updatable = false)
 	private Timestamp created_at;
@@ -47,12 +52,17 @@ public class User {
 
 	}
 
-	/*
-	 * public User(UserDto userDto) { this.id = userDto.getId(); this.name =
-	 * userDto.getName(); this.email = userDto.getEmail(); this.password =
-	 * userDto.getPassword(); this.created_at = userDto.getCreated_at();
-	 * this.updated_at = userDto.getUpdated_at(); }
-	 */
+	public User(UserDto userDto) {
+		this.id = userDto.getId();
+		this.name = userDto.getName();
+		this.email = userDto.getEmail();
+		this.password = userDto.getPassword();
+		this.posts = userDto.getPosts();
+		this.role = userDto.getRole();
+		this.photo = userDto.getPhoto();
+		this.created_at = userDto.getCreated_at();
+		this.updated_at = userDto.getUpdated_at();
+	}
 
 	public long getId() {
 		return id;
@@ -94,12 +104,20 @@ public class User {
 		this.posts = posts;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	public Timestamp getCreated_at() {

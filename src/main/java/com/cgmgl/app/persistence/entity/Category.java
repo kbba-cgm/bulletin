@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,10 +19,10 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "name", nullable = false, columnDefinition = "VARCHAR(100)")
+	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
 	private List<Post> posts;
 	
 	@Column(name = "created_at", updatable = false)
@@ -69,6 +70,28 @@ public class Category {
 	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Category)) {
+			return false;
+		}
+		Category other = (Category) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
+	}
+	
 }

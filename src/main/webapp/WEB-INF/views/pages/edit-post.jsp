@@ -18,6 +18,7 @@
 					rows="10"></form:textarea>
 				<form:errors class="error-msg" path="content" />
 			</div>
+			<form:checkboxes items="${ categories }" path="categories_id" itemLabel="name" itemValue="id" />
 			<%-- <div class="form-group">
 				<label for="category">Category</label> 
 				<form:select class="form-select2 form-input" path="" id="category" multiple="multiple">  

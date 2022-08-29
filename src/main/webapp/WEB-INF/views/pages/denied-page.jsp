@@ -1,0 +1,1 @@
+<h2>Denied page</h2>
