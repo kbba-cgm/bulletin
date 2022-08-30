@@ -1,13 +1,24 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<sec:authentication property="principal.photo" var="photo"/>
 <div class="side-bar-position">
 	<div class="side-bar-content">
 		<div class="side-bar-list">
 			<a href="${ pageContext.request.contextPath }/profile/detail">
 				<div class="side-bar-account">
-					<img class="side-bar-pic" height="30"
-						src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrgTTV3ncyk_ArHQftXJkKB4Jek24P9_sf4T7KQq_XKmVd50PGgwqaFVZJheRJSZCQ-fk&usqp=CAU"
-						alt="example picture">
+					<c:choose>
+						<c:when test="${ not empty photo }">
+							<img class="side-bar-pic" height="30"
+							src="${ photo }"
+							alt="example picture">
+						</c:when>
+						<c:otherwise>
+							<img class="side-bar-pic" height="30"
+							src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrgTTV3ncyk_ArHQftXJkKB4Jek24P9_sf4T7KQq_XKmVd50PGgwqaFVZJheRJSZCQ-fk&usqp=CAU"
+							alt="example picture">
+						</c:otherwise>
+					</c:choose>
 					<div><sec:authentication property="principal.username" /></div>
 				</div>
 			</a>

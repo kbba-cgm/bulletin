@@ -7,7 +7,7 @@
 	<div class="form-wrapper">
 		<form:form action="${pageContext.request.contextPath}/post/create" modelAttribute="postDto" method="post">  
 			<div class="form-group">
-				<label for="title">Ttile</label> 
+				<label for="title">Title</label> 
 				<form:input class="form-input" type="text" path="title" id="title" />
 				<form:errors class="error-msg" path="title" />
 			</div>

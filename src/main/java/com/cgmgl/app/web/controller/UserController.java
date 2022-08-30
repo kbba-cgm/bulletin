@@ -49,7 +49,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/admin/user/create")
-	public String storeUser(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult br,  Model m) {
+	public String storeUser(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult br,  Model m) throws Exception {
 		
 		if(br.hasErrors()) {
 			List<Role> roles = roleService.getAllRoles();

@@ -18,6 +18,29 @@
 				<form:errors class="error-msg" path="email" />
 			</div>
 			<div class="form-group">
+			<label for="photo">Photo</label>
+			<div class="">
+				<div class="preview-input form-input">
+					<c:choose>
+						<c:when test="${ userEditDto.photo.length() > 0 }">
+							<img height="100" id="profile-preview-photo"
+							src="${ userEditDto.photo }"
+							alt="example picture">
+						</c:when>
+						<c:otherwise>
+							<img height="100" id="profile-preview-photo"
+							src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrgTTV3ncyk_ArHQftXJkKB4Jek24P9_sf4T7KQq_XKmVd50PGgwqaFVZJheRJSZCQ-fk&usqp=CAU"
+							alt="example picture">
+						</c:otherwise>
+					</c:choose>
+				</div>
+				<!-- <input class="form-input" type="file"> -->
+				<input class="form-input" type="file" id="fileUpload" accept="image/*" value="${userEditDto.photo}" />
+				<form:input path="photo" type="hidden" id="imageData" value="${userEditDto.photo}" />
+			</div>
+				<div class="error-msg form-input" id="profile-photo-type-error"></div>
+		</div>
+			<div class="form-group">
 				<input type="submit" class="submit button form-input" value="update">
 			</div>
 		</form:form>

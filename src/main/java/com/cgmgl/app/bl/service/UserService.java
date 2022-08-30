@@ -1,5 +1,7 @@
 package com.cgmgl.app.bl.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public interface UserService {
 	public UserDto getUserByUsername(String username);
 	
 	public boolean doesUserExist(String email);
+
+	public long createUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException;
 
 	public long createUser(UserDto userDto);
 

@@ -1,9 +1,13 @@
 package com.cgmgl.app.bl.service.impl;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,8 +51,29 @@ public class UserServiceImpl implements UserService {
 	public boolean doesUserExist(String email) {
 		return userDao.doesUserExist(email);
 	}
+	
+	@Override
+	public long createUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException {
+		now  = new Timestamp(new Date().getTime());
+		userDto.setCreated_at(now);
+		userDto.setUpdated_at(now);
+		
+		String imageBase64 = userDto.getPhoto();
+		if (!imageBase64.isEmpty() && !imageBase64.equals("") && !imageBase64.equals(null)) {
+			String[] block = imageBase64.split(",");
+			String realData = block[1];
+			byte[] data = Base64.decodeBase64(realData);
+			try (FileOutputStream stream = new FileOutputStream(file_path)) {
+				stream.write(data);
+			}
+		}
+		
+		userDto.setPhoto(file_path);
+		
+		return userDao.createUser(getUserData(userDto));
+	}
 
-	public long createUser(UserDto userDto) {
+	public long createUser(UserDto userDto){
 		now  = new Timestamp(new Date().getTime());
 		userDto.setCreated_at(now);
 		userDto.setUpdated_at(now);
@@ -84,6 +109,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(userDto.getEmail());
 		user.setRole(userDto.getRole());
 		user.setPosts(userDto.getPosts());
+		user.setPhoto(userDto.getPhoto());
 		user.setCreated_at(userDto.getCreated_at());
 		user.setUpdated_at(userDto.getUpdated_at());
 		
@@ -93,4 +119,5 @@ public class UserServiceImpl implements UserService {
 	public Role getUserRole(String roleName) {
 		return roleDao.getRolebyRoleName(roleName);
 	}
+
 }
