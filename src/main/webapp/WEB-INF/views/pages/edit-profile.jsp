@@ -7,6 +7,11 @@
 	<div class="form-wrapper">
 		<form:form action="${pageContext.request.contextPath}/profile/edit" modelAttribute="userEditDto" method="post">  
 			<form:hidden path="id" />
+			<%-- Name => <c:out value="${ userEditDto.name }"></c:out> <hr>
+			Email => <c:out value="${ userEditDto.email }"></c:out> <hr>
+			Photo => <c:out value="${ userEditDto.photo }"></c:out> <hr>
+			Base64String => <c:out value="${ userEditDto.base64String }"></c:out> <hr>
+			returnImageString => <c:out value="${ userEditDto.imageString }"></c:out> <hr> --%>
 			<div class="form-group">
 				<label for="title">Username</label> 
 				<form:input class="form-input" type="text" path="name" id="title" />
@@ -22,9 +27,14 @@
 			<div class="">
 				<div class="preview-input form-input">
 					<c:choose>
-						<c:when test="${ userEditDto.photo.length() > 0 }">
+						<c:when test="${ not empty userEditDto.photo }">
 							<img height="100" id="profile-preview-photo"
-							src="${ userEditDto.photo }"
+							src="${ userEditDto.base64String }"
+							alt="example picture">
+						</c:when>
+						<c:when test="${ not empty userEditDto.imageString }">
+							<img height="100" id="profile-preview-photo"
+							src="${ userEditDto.imageString }"
 							alt="example picture">
 						</c:when>
 						<c:otherwise>
@@ -33,13 +43,19 @@
 							alt="example picture">
 						</c:otherwise>
 					</c:choose>
+					<div>
+						<div id="remove_photo" class="button action-button d-none" style="margin: 10px 0; background-color: crimson;">Remove photo</div>
+					</div>
 				</div>
 				<!-- <input class="form-input" type="file"> -->
-				<input class="form-input" type="file" id="fileUpload" accept="image/*" value="${userEditDto.photo}" />
-				<form:input path="photo" type="hidden" id="imageData" value="${userEditDto.photo}" />
+				<input style="width: 100%" class="form-input" type="file" id="fileUpload" accept="image/*" value="${userEditDto.imageString}" />
 			</div>
-				<div class="error-msg form-input" id="profile-photo-type-error"></div>
 		</div>
+			<div class="error-msg" id="profile-photo-type-error"></div>
+			<form:input path="imageString" type="" id="imageData" value="${userEditDto.imageString}" />
+			<c:if test="${ not empty userEditDto.photo }">
+				<form:input path="photo" type="" id="oldImageData" value="${userEditDto.photo}" />			
+			</c:if>
 			<div class="form-group">
 				<input type="submit" class="submit button form-input" value="update">
 			</div>

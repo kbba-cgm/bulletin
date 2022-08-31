@@ -348,3 +348,7 @@ a {
 .action_icon.detail:hover > i {
 	color: blue;
 }
+
+.d-none {
+	display: none;
+}

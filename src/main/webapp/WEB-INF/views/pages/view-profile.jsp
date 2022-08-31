@@ -30,8 +30,8 @@
 					<h2><sec:authentication property="principal.username" /></h2>
 					<div><sec:authentication property="principal.email" /></div>
 					<div>Role: <sec:authentication property="principal.role.name" /></div>
-					<div>
-						<a class="button action-button" href="${ pageContext.request.contextPath }/profile/edit">
+					<div style="margin: 10px 0; width: fit-content;" class="button action-button">
+						<a href="${ pageContext.request.contextPath }/profile/edit">
 							Edit
 						</a>
 					</div>

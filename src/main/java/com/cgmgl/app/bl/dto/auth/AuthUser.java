@@ -83,7 +83,7 @@ public class AuthUser implements UserDetails {
 
 	public String getPhoto() throws IOException {
 		String base64Img = null;
-		if (userDto.getPhoto() != null) {
+		if (userDto.getPhoto() != null && !userDto.getPhoto().isEmpty()) {
 			String filePath = userDto.getPhoto();
 			File file = new File(filePath);
 			if (file.getAbsoluteFile().exists()) {

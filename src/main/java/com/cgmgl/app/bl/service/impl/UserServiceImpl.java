@@ -23,15 +23,15 @@ import com.cgmgl.app.persistence.entity.User;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	RoleDao roleDao;
-	
+
 	@Autowired
 	BCryptPasswordEncoder bcryptEncoder;
-	
+
 	private Timestamp now;
-	
+
 	public List<User> getAllUser() {
 		return userDao.getAllUser();
 	}
@@ -51,13 +51,13 @@ public class UserServiceImpl implements UserService {
 	public boolean doesUserExist(String email) {
 		return userDao.doesUserExist(email);
 	}
-	
+
 	@Override
 	public long createUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException {
-		now  = new Timestamp(new Date().getTime());
+		now = new Timestamp(new Date().getTime());
 		userDto.setCreated_at(now);
 		userDto.setUpdated_at(now);
-		
+
 		String imageBase64 = userDto.getPhoto();
 		if (!imageBase64.isEmpty() && !imageBase64.equals("") && !imageBase64.equals(null)) {
 			String[] block = imageBase64.split(",");
@@ -67,24 +67,25 @@ public class UserServiceImpl implements UserService {
 				stream.write(data);
 			}
 		}
-		
+
 		userDto.setPhoto(file_path);
-		
+
 		return userDao.createUser(getUserData(userDto));
 	}
 
-	public long createUser(UserDto userDto){
-		now  = new Timestamp(new Date().getTime());
+	public long createUser(UserDto userDto) {
+		now = new Timestamp(new Date().getTime());
 		userDto.setCreated_at(now);
 		userDto.setUpdated_at(now);
 		return userDao.createUser(getUserData(userDto));
 	}
 
 	public void updateUser(UserDto userDto) {
-		now  = new Timestamp(new Date().getTime());
+		now = new Timestamp(new Date().getTime());
 		User user = userDao.getUserById(userDto.getId());
 		user.setName(userDto.getName());
 		user.setEmail(userDto.getEmail());
+		user.setPhoto(userDto.getPhoto());
 		user.setRole(userDto.getRole());
 		user.setUpdated_at(now);
 		userDao.updateUser(user);
@@ -97,13 +98,13 @@ public class UserServiceImpl implements UserService {
 	public void deleteUserById(long id) {
 		userDao.deleteUserById(id);
 	}
-	
+
 	private User getUserData(UserDto userDto) {
 		User user = new User();
-		
-		if(userDto.getPassword() != null)
+
+		if (userDto.getPassword() != null)
 			user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
-		
+
 		user.setId(userDto.getId());
 		user.setName(userDto.getName());
 		user.setEmail(userDto.getEmail());
@@ -112,12 +113,37 @@ public class UserServiceImpl implements UserService {
 		user.setPhoto(userDto.getPhoto());
 		user.setCreated_at(userDto.getCreated_at());
 		user.setUpdated_at(userDto.getUpdated_at());
-		
+
 		return user;
 	}
-	
+
 	public Role getUserRole(String roleName) {
 		return roleDao.getRolebyRoleName(roleName);
+	}
+
+	@Override
+	public void updateUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException {
+		User user = userDao.getUserById(userDto.getId());
+		now = new Timestamp(new Date().getTime());
+
+		String imageBase64 = userDto.getImageString();
+		if (!imageBase64.isEmpty() && !imageBase64.equals("") && !imageBase64.equals(null)) {
+			String[] block = imageBase64.split(",");
+			String realData = block[1];
+			byte[] data = Base64.decodeBase64(realData);
+			try (FileOutputStream stream = new FileOutputStream(file_path)) {
+				stream.write(data);
+			}
+		}
+
+		userDto.setPhoto(file_path);
+		userDto.setUpdated_at(now);
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setRole(userDto.getRole());
+		user.setPhoto(userDto.getPhoto());
+		user.setUpdated_at(now);
+		userDao.updateUser(user);
 	}
 
 }

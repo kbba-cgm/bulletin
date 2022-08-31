@@ -5,11 +5,12 @@ $(document).ready(function() {
 		placeholder: "Select category"
 	});
 	
+	if($("#oldImageData").val()) $("#remove_photo").removeClass("d-none");
+	
 	const setImageDataValue = fileLists => {
 		const reader = new FileReader();
 		reader.onload = (e) => $("#imageData").val(e.target.result);
 	    reader.readAsDataURL(fileLists[0]);
-	    console.log(fileLists[0].type);
 	}
 	
 	const showThumbnail = fileLists => {
@@ -19,8 +20,11 @@ $(document).ready(function() {
 	}
 	
 	const cleanImageData = () => {
+		$("#fileUpload").val('');
 		$("#profile-preview-photo").attr("src", default_preview_photo);
 		$("#imageData").val('');
+		// if($('#oldImageData')) $('#oldImageData').val('');
+		$("#remove_photo").addClass("d-none");
 	}
 	
 	$("#fileUpload").on("change", function(){
@@ -35,8 +39,13 @@ $(document).ready(function() {
 		
 		setImageDataValue(this.files);
 		showThumbnail(this.files);
+		$("#remove_photo").removeClass("d-none");
+		// if($('#oldImageData')) $('#oldImageData').val('');
 		$("#profile-photo-type-error").text("");
 	})
 	
+	$("#remove_photo").on("click", function() {
+		cleanImageData();
+	});
 })
 

@@ -1,5 +1,6 @@
 package com.cgmgl.app.bl.dto;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List; 
 import javax.validation.constraints.Email;
@@ -28,6 +29,16 @@ public class UserDto {
 	
 	private String photo;
 	
+	private String imageString;
+
+	public String getImageString() {
+		return imageString;
+	}
+
+	public void setImageString(String imageString) {
+		this.imageString = imageString;
+	}
+
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	
@@ -47,11 +58,13 @@ public class UserDto {
 		this.updated_at = user.getUpdated_at();
 	}
 	
-	public UserDto(UserEditDto userEditDto) {
+	public UserDto(UserEditDto userEditDto) throws IOException {
 		this.id = userEditDto.getId();
 		this.name = userEditDto.getName();
 		this.email = userEditDto.getEmail();
 		this.role = userEditDto.getRole();
+		this.photo = userEditDto.getPhoto();
+		this.imageString = userEditDto.getImageString();
 	}
 
 	public long getId() {

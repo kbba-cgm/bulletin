@@ -27,6 +27,8 @@ public interface UserService {
 
 	public void updateUser(UserDto userDto);
 
+	public void updateUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException;
+	
 	public void deleteUser(UserDto userDto);
 
 	public void deleteUserById(long id);	

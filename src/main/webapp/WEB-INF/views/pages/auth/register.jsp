@@ -36,10 +36,13 @@
 							alt="example picture">
 						</c:otherwise>
 					</c:choose>
+					<div>
+						<div id="remove_photo" class="button action-button d-none" style="margin: 10px 0; background-color: crimson;">Remove</div>
+					</div>
 				</div>
 				<!-- <input class="form-input" type="file"> -->
 				<input class="form-input" type="file" id="fileUpload" accept="image/*" value="${userDto.photo}" />
-				<form:input path="photo" type="" id="imageData" value="${userDto.photo}" />
+				<form:input path="photo" type="hidden" id="imageData" value="${userDto.photo}" />
 			</div>
 				<div class="error-msg form-input" id="profile-photo-type-error"></div>
 		</div>

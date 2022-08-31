@@ -1,5 +1,6 @@
 package com.cgmgl.app.web.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/admin/user/edit")
-	public String updateUser(@Valid @ModelAttribute("userEditDto") UserEditDto userEditDto, BindingResult br, Model m) {
+	public String updateUser(@Valid @ModelAttribute("userEditDto") UserEditDto userEditDto, BindingResult br, Model m) throws IOException {
 		if(br.hasErrors()) {
 			List<Role> roles = roleService.getAllRoles();
 			m.addAttribute("roles", roles);

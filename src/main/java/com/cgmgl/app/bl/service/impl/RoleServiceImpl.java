@@ -1,8 +1,11 @@
 package com.cgmgl.app.bl.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import com.cgmgl.app.bl.dto.RoleDto;
@@ -38,5 +41,5 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 }
