@@ -13,6 +13,8 @@ public interface RoleService {
 	
 	public RoleDto getRolebyId(long id);
 	
+	public long doCreateRole(Role role);
+	
 	public RoleDto getRolebyRoleName(String roleName);
 	
 	public boolean doesRoleExist(long id);

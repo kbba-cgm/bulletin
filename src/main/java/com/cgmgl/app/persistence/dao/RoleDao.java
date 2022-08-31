@@ -12,6 +12,8 @@ public interface RoleDao {
 	
 	public Role getRolebyId(long id);
 	
+	public long createRole(Role role);
+	
 	public Role getRolebyRoleName(String roleName);
 	
 	public boolean doesRoleExist(long id);

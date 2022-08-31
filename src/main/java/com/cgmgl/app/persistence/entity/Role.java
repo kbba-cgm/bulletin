@@ -2,7 +2,9 @@ package com.cgmgl.app.persistence.entity;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ public class Role {
 	@Column(name = "name", nullable = false, columnDefinition = "VARCHAR(100)")
 	private String name;
 	
-	@OneToMany(mappedBy = "role")
+	@OneToMany(mappedBy = "role", cascade = {CascadeType.ALL})
 	private List<User> users;
 	
 	@Column(name = "created_at", updatable = false)
@@ -37,6 +39,11 @@ public class Role {
 		
 	}
 	
+	public Role(String name) {
+		this.name = name;
+	}
+
+
 	public Role(RoleDto roleDto) {
 		this.id = roleDto.getId();
 		this.name = roleDto.getName();
@@ -88,10 +95,7 @@ public class Role {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		return result;
+		return Objects.hash(name);
 	}
 
 	@Override
@@ -103,10 +107,7 @@ public class Role {
 			return false;
 		}
 		Role other = (Role) obj;
-		if (id != other.id) {
-			return false;
-		}
-		return true;
-	}
+		return Objects.equals(name, other.name);
+	}	
 
 }

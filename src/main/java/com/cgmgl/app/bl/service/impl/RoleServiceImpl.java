@@ -41,5 +41,9 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
+	@Override
+	public long doCreateRole(Role role) {
+		return roleDao.createRole(role);
+	}
 }

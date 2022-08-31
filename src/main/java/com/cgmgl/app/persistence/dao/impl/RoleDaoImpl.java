@@ -41,4 +41,9 @@ public class RoleDaoImpl extends AbstractDao<Long, Role> implements RoleDao {
 		return false;
 	}
 
+	@Override
+	public long createRole(Role role) {
+		return (long) create(role);
+	}
+
 }
