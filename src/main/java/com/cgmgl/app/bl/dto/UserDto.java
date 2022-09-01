@@ -30,6 +30,7 @@ public class UserDto {
 
 	private String photo;
 
+	@SuppressWarnings("unused")
 	private String base64String;
 
 	private String imageString;

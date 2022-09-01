@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+
 import org.springframework.stereotype.Service;
 
 import com.cgmgl.app.bl.dto.UserDto;
@@ -21,15 +23,17 @@ public interface UserService {
 	
 	public boolean doesUserExist(String email);
 
-	public long createUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException;
-
 	public long createUser(UserDto userDto);
 
 	public void updateUser(UserDto userDto);
-
-	public void updateUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException;
 	
 	public void deleteUser(UserDto userDto);
 
-	public void deleteUserById(long id);	
+	public void deleteUserById(long id);
+
+	long createUser(UserDto userDto, String file_path, ServletRequest request)
+			throws FileNotFoundException, IOException;
+
+	void updateUser(UserDto userDto, String file_path, ServletRequest request)
+			throws FileNotFoundException, IOException;	
 }

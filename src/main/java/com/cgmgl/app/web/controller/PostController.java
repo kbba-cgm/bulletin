@@ -23,7 +23,6 @@ import com.cgmgl.app.bl.service.PostService;
 import com.cgmgl.app.bl.service.UserService;
 import com.cgmgl.app.bl.service.auth.MyAuthenticationService;
 import com.cgmgl.app.persistence.entity.Category;
-import com.cgmgl.app.persistence.entity.Post;
 import com.cgmgl.app.persistence.entity.User;
 
 @Controller
@@ -50,7 +49,6 @@ public class PostController {
 
 	@GetMapping("/post/all")
 	public String allPosts(ModelMap m) {
-		List<Post> ownPosts = postService.getOwnPost(myAuthenticationService.getPrincipal().getId());
 		User LoggedInUser = new User(userService.getUserById(myAuthenticationService.getPrincipal().getId()));
 		m.addAttribute("posts", LoggedInUser.getPosts());
 

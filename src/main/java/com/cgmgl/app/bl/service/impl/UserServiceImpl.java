@@ -7,11 +7,14 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cgmgl.app.bl.common.Common;
 import com.cgmgl.app.bl.dto.UserDto;
 import com.cgmgl.app.bl.service.UserService;
 import com.cgmgl.app.persistence.dao.RoleDao;
@@ -53,12 +56,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public long createUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException {
+	public long createUser(UserDto userDto, String file_path, ServletRequest request) throws FileNotFoundException, IOException {
 		now = new Timestamp(new Date().getTime());
 		userDto.setCreated_at(now);
 		userDto.setUpdated_at(now);
 
-		writeImageData(userDto.getPhoto(), file_path);
+		String full_file_path = Common.getRootStoragePath(request) + file_path;
+		writeImageData(userDto.getPhoto(), full_file_path);
 		userDto.setPhoto(file_path);
 
 		return userDao.createUser(getUserData(userDto));
@@ -113,7 +117,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(UserDto userDto, String file_path) throws FileNotFoundException, IOException {
+	public void updateUser(UserDto userDto, String file_path, ServletRequest request) throws FileNotFoundException, IOException {
 		User user = userDao.getUserById(userDto.getId());
 		now = new Timestamp(new Date().getTime());
 
@@ -123,7 +127,8 @@ public class UserServiceImpl implements UserService {
 		user.setUpdated_at(now);
 		
 		String imageBase64 = userDto.getImageString();
-		writeImageData(imageBase64, file_path);
+		String full_file_path = Common.getRootStoragePath(request) + file_path;
+		writeImageData(imageBase64, full_file_path);
 		user.setPhoto(file_path);
 		
 		userDao.updateUser(user);

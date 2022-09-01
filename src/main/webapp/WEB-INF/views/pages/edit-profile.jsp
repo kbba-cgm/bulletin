@@ -1,5 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:set var="photo_url" value="${pageContext.request.contextPath}/resources/images/${ userEditDto.photo }"></c:set>
 <div class="form-div">
 	<div class="form-header">
 		<div class="page-title">Edit Profile</div>
@@ -34,7 +36,7 @@
 						</c:when>
 						<c:when test="${ not empty userEditDto.photo }">
 							<img height="100" id="profile-preview-photo"
-							src="${ userEditDto.base64String }"
+							src="${ photo_url }"
 							alt="example picture">
 						</c:when>
 						<c:otherwise>
@@ -52,10 +54,10 @@
 			</div>
 		</div>
 			<div class="error-msg" id="profile-photo-type-error"></div>
-			<form:input path="imageString" type="hidden" id="imageData" value="${userEditDto.imageString}" />
+			<form:input path="imageString" type="" id="imageData" value="${userEditDto.imageString}" />
 			<c:if test="${ not empty userEditDto.photo }">
-				<form:input path="photo" type="hidden" id="oldImageData" value="${userEditDto.photo}" />
-				<form:input path="base64String" type="hidden" id="oldImageString" value="${userEditDto.base64String}" />
+				<form:input path="photo" type="" id="oldImageData" value="${userEditDto.photo}" />
+				<form:input path="base64String" type="" id="oldImageString" value="${userEditDto.base64String}" />
 			</c:if>
 			<div class="form-group">
 				<input type="submit" class="submit button form-input" value="update">

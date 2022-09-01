@@ -57,16 +57,24 @@ public class UserProfileController {
 
 		AuthUser authUser = myAuthenticationService.getPrincipal();
 		userEditDto.setRole(new Role(roleService.getRolebyRoleName("ROLE_USER")));
+		String root_path = Common.getRootStoragePath(request);
 		
 		String file_path = Common.getProfileImgStorePath(userEditDto.getImageString(), request);
 		
 		if (file_path != null) {
 			authUser.setPhoto(file_path);
-			userService.updateUser(new UserDto(userEditDto), file_path);
-			deleteOldImage(userEditDto.getPhoto());
+			userService.updateUser(new UserDto(userEditDto), file_path, request);
+			
+			if(userEditDto.getPhoto() != null && userEditDto.getPhoto().length() > 0)
+				deleteOldImage(root_path + userEditDto.getPhoto());
+			
 		} else {
+			System.out.println(root_path + userEditDto.getPhoto());
 			authUser.setPhoto(null);
-			deleteOldImage(userEditDto.getPhoto());
+			
+			if(userEditDto.getPhoto() != null && userEditDto.getPhoto().length() > 0)
+				deleteOldImage(root_path + userEditDto.getPhoto());
+			
 			userEditDto.setPhoto(null);
 			userService.updateUser(new UserDto(userEditDto));
 		}
@@ -79,6 +87,7 @@ public class UserProfileController {
 	private void deleteOldImage(String filepath) throws IOException {
 		if (filepath != null && !filepath.isEmpty()) {
 			Path path = Paths.get(filepath);
+			System.out.println(path);
 			Files.delete(path);
 		}
 	}

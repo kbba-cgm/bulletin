@@ -7,6 +7,7 @@
 		<c:when test="${not empty posts}">
 			<div class="card-grid">
 				<c:forEach var="post" items="${posts}">
+					<c:set var="photo_url" value="${pageContext.request.contextPath}/resources/images/${ post.userDto.photo }"></c:set>
 					<div class="card">
 						<div class="card-content">
 							<div class="card-title">
@@ -43,7 +44,7 @@
 									<c:choose>
 										<c:when test="${ not empty post.userDto.photo }">
 											<img class="profile-pic-round" height="30"
-											src="${ post.userDto.base64String }"
+											src="${ photo_url }"
 											alt="example picture">
 										</c:when>
 										<c:otherwise>

@@ -40,14 +40,14 @@ public abstract class Common {
 		if (base64String == null || base64String.length() <= 0)
 			return null;
 
-		String file_path = getRootStoragePath(request) + "profiles";
-		if (!Files.exists(Paths.get(file_path)))
-			Files.createDirectories(Paths.get(file_path));
+		String base_file_path = getRootStoragePath(request);
+		if (!Files.exists(Paths.get(base_file_path)))
+			Files.createDirectories(Paths.get(base_file_path));
 
 		String fileExtension = getImageExtension(base64String);
 		UUID fileName = UUID.randomUUID();
 
-		file_path = Paths.get(file_path) + "/" + fileName + "." + fileExtension;
+		String file_path = "profiles/" + fileName + "." + fileExtension;
 
 		return file_path;
 	}

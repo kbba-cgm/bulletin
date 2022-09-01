@@ -1,7 +1,5 @@
 package com.cgmgl.app.bl.service.auth.impl;
 
-import java.security.Principal;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 

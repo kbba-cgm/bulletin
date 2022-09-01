@@ -2,6 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <sec:authentication property="principal.photo" var="photo"/>
+<c:set var="photo_url" value="${pageContext.request.contextPath}/resources/images/${ photo }"></c:set>
+
 <div class="side-bar-position">
 	<div class="side-bar-content">
 		<div class="side-bar-list">
@@ -9,12 +11,12 @@
 				<div class="side-bar-account">
 					<c:choose>
 						<c:when test="${ not empty photo }">
-							<img class="side-bar-pic" height="30"
-							src="${ photo }"
+							<img class="side-bar-pic" height="60"
+							src="${ photo_url }"
 							alt="example picture">
 						</c:when>
 						<c:otherwise>
-							<img class="side-bar-pic" height="30"
+							<img class="side-bar-pic" height="60"
 							src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrgTTV3ncyk_ArHQftXJkKB4Jek24P9_sf4T7KQq_XKmVd50PGgwqaFVZJheRJSZCQ-fk&usqp=CAU"
 							alt="example picture">
 						</c:otherwise>

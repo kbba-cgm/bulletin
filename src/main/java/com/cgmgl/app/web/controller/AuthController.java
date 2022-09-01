@@ -44,10 +44,10 @@ public class AuthController {
 		}
 
 		String file_path = Common.getProfileImgStorePath(userDto.getPhoto(), request);
-		
+		System.out.println(file_path);
 		Role role = new Role(roleService.getRolebyRoleName("ROLE_USER"));
 		userDto.setRole(role);
-		userService.createUser(userDto, file_path);
+		userService.createUser(userDto, file_path, request);
 		
 		return "redirect:/";
 	}

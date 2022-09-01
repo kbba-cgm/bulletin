@@ -10,7 +10,6 @@ import javax.validation.constraints.NotEmpty;
 
 import com.cgmgl.app.persistence.entity.Category;
 import com.cgmgl.app.persistence.entity.Post;
-import com.cgmgl.app.persistence.entity.User;
 
 public class PostDto {
 	private long id;

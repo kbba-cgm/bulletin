@@ -9,7 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.cgmgl.app.bl.common.Common;
 import com.cgmgl.app.bl.dto.UserDto;
 import com.cgmgl.app.persistence.entity.Post;
 import com.cgmgl.app.persistence.entity.Role;
@@ -77,7 +76,7 @@ public class AuthUser implements UserDetails {
 	}
 
 	public String getPhoto() throws IOException {
-		return Common.fileToBase64String(userDto.getPhoto());
+		return userDto.getPhoto();
 	}
 
 	public void setPhoto(String photo) {

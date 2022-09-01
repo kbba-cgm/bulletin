@@ -3,6 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <sec:authentication property="principal.photo" var="photo"/>
+<c:set var="photo_url" value="${pageContext.request.contextPath}/resources/images/${ photo }"></c:set>
 <div class="post-list-div">
 	<div class="post-list-header">
 		<div class="flex-box justify-content-between align-items-center">
@@ -16,7 +17,7 @@
 				<c:choose>
 					<c:when test="${ not empty photo }">
 						<img class="side-bar-pic" height="100"
-							src="<c:url value='${ photo }'/>" 
+							src="${ photo_url }" 
 							alt="example picture">					
 					</c:when>
 					<c:otherwise>
