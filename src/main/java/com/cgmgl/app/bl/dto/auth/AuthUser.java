@@ -1,20 +1,15 @@
 package com.cgmgl.app.bl.dto.auth;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.cgmgl.app.bl.common.Common;
 import com.cgmgl.app.bl.dto.UserDto;
 import com.cgmgl.app.persistence.entity.Post;
 import com.cgmgl.app.persistence.entity.Role;
@@ -82,22 +77,7 @@ public class AuthUser implements UserDetails {
 	}
 
 	public String getPhoto() throws IOException {
-		String base64Img = null;
-		if (userDto.getPhoto() != null && !userDto.getPhoto().isEmpty()) {
-			String filePath = userDto.getPhoto();
-			File file = new File(filePath);
-			if (file.getAbsoluteFile().exists()) {
-
-				FileInputStream fis = new FileInputStream(file);
-				byte byteArray[] = new byte[(int) file.length()];
-				fis.read(byteArray);
-				String imageString = "data:image/png;base64," + Base64.encodeBase64String(byteArray);
-
-				base64Img = imageString;
-			}
-		}
-
-		return base64Img;
+		return Common.fileToBase64String(userDto.getPhoto());
 	}
 
 	public void setPhoto(String photo) {

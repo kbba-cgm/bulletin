@@ -1,10 +1,8 @@
 package com.cgmgl.app.web.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -13,17 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.cgmgl.app.bl.dto.CategoryDto;
 import com.cgmgl.app.bl.dto.PostDto;
+import com.cgmgl.app.bl.dto.UserDto;
 import com.cgmgl.app.bl.service.CategoryService;
 import com.cgmgl.app.bl.service.PostService;
 import com.cgmgl.app.bl.service.UserService;
@@ -48,7 +42,7 @@ public class PostController {
 
 	@GetMapping("/")
 	public String home(ModelMap m) {
-		List<Post> posts = postService.getPublicPost();
+		List<PostDto> posts = postService.getPublicPost();
 		m.addAttribute("posts", posts);
 
 		return "home";
@@ -56,11 +50,9 @@ public class PostController {
 
 	@GetMapping("/post/all")
 	public String allPosts(ModelMap m) {
-		System.out.println(myAuthenticationService.getPrincipal().getId());
 		List<Post> ownPosts = postService.getOwnPost(myAuthenticationService.getPrincipal().getId());
 		User LoggedInUser = new User(userService.getUserById(myAuthenticationService.getPrincipal().getId()));
-		if (!ownPosts.isEmpty())
-			m.addAttribute("posts", LoggedInUser.getPosts());
+		m.addAttribute("posts", LoggedInUser.getPosts());
 
 		return "all-post";
 	}
@@ -84,8 +76,9 @@ public class PostController {
 		LongStream categories_stream = Arrays.stream(postDto.getCategories_id());
 		List<Category> category_list = categories_stream.mapToObj(id -> categoryService.getCategoryById(id)).toList();
 		postDto.setCategories(category_list);
-		User LoggedInUser = new User(userService.getUserById(myAuthenticationService.getPrincipal().getId()));
-		postDto.setUser(LoggedInUser);
+		UserDto LoggedInUser = userService.getUserById(myAuthenticationService.getPrincipal().getId());
+		postDto.setUserDto(LoggedInUser);
+		@SuppressWarnings("unused")
 		Long id = postService.createPost(postDto);
 		
 		return "redirect:/";
@@ -127,8 +120,8 @@ public class PostController {
 		LongStream categories_stream = Arrays.stream(postDto.getCategories_id());
 		List<Category> category_list = categories_stream.mapToObj(id -> categoryService.getCategoryById(id)).toList();
 		postDto.setCategories(category_list);
-		User LoggedInUser = new User(userService.getUserById(myAuthenticationService.getPrincipal().getId()));
-		postDto.setUser(LoggedInUser);
+		UserDto LoggedInUser = userService.getUserById(myAuthenticationService.getPrincipal().getId());
+		postDto.setUserDto(LoggedInUser);
 		
 		postService.updatePost(postDto);
 		

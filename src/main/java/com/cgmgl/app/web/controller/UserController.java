@@ -1,10 +1,7 @@
 package com.cgmgl.app.web.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -17,14 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.cgmgl.app.bl.dto.UserDto;
 import com.cgmgl.app.bl.dto.UserEditDto;
 import com.cgmgl.app.bl.service.RoleService;
 import com.cgmgl.app.bl.service.UserService;
 import com.cgmgl.app.persistence.entity.Role;
-import com.cgmgl.app.persistence.entity.User;
 
 @Controller
 public class UserController {

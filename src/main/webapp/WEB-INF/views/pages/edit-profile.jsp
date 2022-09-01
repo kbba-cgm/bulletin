@@ -27,14 +27,14 @@
 			<div class="">
 				<div class="preview-input form-input">
 					<c:choose>
-						<c:when test="${ not empty userEditDto.photo }">
-							<img height="100" id="profile-preview-photo"
-							src="${ userEditDto.base64String }"
-							alt="example picture">
-						</c:when>
 						<c:when test="${ not empty userEditDto.imageString }">
 							<img height="100" id="profile-preview-photo"
 							src="${ userEditDto.imageString }"
+							alt="example picture">
+						</c:when>
+						<c:when test="${ not empty userEditDto.photo }">
+							<img height="100" id="profile-preview-photo"
+							src="${ userEditDto.base64String }"
 							alt="example picture">
 						</c:when>
 						<c:otherwise>
@@ -52,9 +52,10 @@
 			</div>
 		</div>
 			<div class="error-msg" id="profile-photo-type-error"></div>
-			<form:input path="imageString" type="" id="imageData" value="${userEditDto.imageString}" />
+			<form:input path="imageString" type="hidden" id="imageData" value="${userEditDto.imageString}" />
 			<c:if test="${ not empty userEditDto.photo }">
-				<form:input path="photo" type="" id="oldImageData" value="${userEditDto.photo}" />			
+				<form:input path="photo" type="hidden" id="oldImageData" value="${userEditDto.photo}" />
+				<form:input path="base64String" type="hidden" id="oldImageString" value="${userEditDto.base64String}" />
 			</c:if>
 			<div class="form-group">
 				<input type="submit" class="submit button form-input" value="update">

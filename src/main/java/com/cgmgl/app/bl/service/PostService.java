@@ -11,7 +11,7 @@ import com.cgmgl.app.persistence.entity.Post;
 public interface PostService {
 	public List<Post> getAllPost();
 	
-	public List<Post> getPublicPost();
+	public List<PostDto> getPublicPost();
 
 	public List<Post> getOwnPost(long id);
 	

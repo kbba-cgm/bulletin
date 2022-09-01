@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,16 +58,7 @@ public class UserServiceImpl implements UserService {
 		userDto.setCreated_at(now);
 		userDto.setUpdated_at(now);
 
-		String imageBase64 = userDto.getPhoto();
-		if (!imageBase64.isEmpty() && !imageBase64.equals("") && !imageBase64.equals(null)) {
-			String[] block = imageBase64.split(",");
-			String realData = block[1];
-			byte[] data = Base64.decodeBase64(realData);
-			try (FileOutputStream stream = new FileOutputStream(file_path)) {
-				stream.write(data);
-			}
-		}
-
+		writeImageData(userDto.getPhoto(), file_path);
 		userDto.setPhoto(file_path);
 
 		return userDao.createUser(getUserData(userDto));
@@ -128,24 +117,28 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.getUserById(userDto.getId());
 		now = new Timestamp(new Date().getTime());
 
-		String imageBase64 = userDto.getImageString();
-		if (!imageBase64.isEmpty() && !imageBase64.equals("") && !imageBase64.equals(null)) {
-			String[] block = imageBase64.split(",");
-			String realData = block[1];
-			byte[] data = Base64.decodeBase64(realData);
-			try (FileOutputStream stream = new FileOutputStream(file_path)) {
-				stream.write(data);
-			}
-		}
-
-		userDto.setPhoto(file_path);
-		userDto.setUpdated_at(now);
 		user.setName(userDto.getName());
 		user.setEmail(userDto.getEmail());
 		user.setRole(userDto.getRole());
-		user.setPhoto(userDto.getPhoto());
 		user.setUpdated_at(now);
+		
+		String imageBase64 = userDto.getImageString();
+		writeImageData(imageBase64, file_path);
+		user.setPhoto(file_path);
+		
 		userDao.updateUser(user);
+	}
+
+	private void writeImageData(String base64String, String file_path) throws FileNotFoundException, IOException {
+		if (base64String == null || base64String.length() <= 0)
+			return;
+
+		String[] block = base64String.split(",");
+		String realData = block[1];
+		byte[] data = Base64.decodeBase64(realData);
+		try (FileOutputStream stream = new FileOutputStream(file_path)) {
+			stream.write(data);
+		}
 	}
 
 }

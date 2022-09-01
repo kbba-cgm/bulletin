@@ -40,10 +40,19 @@
 							<div class="card-footer">
 								<div class="author">
 									<div class="side-bar-account">
-										<img class="profile-pic-round" height="30"
-											src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrgTTV3ncyk_ArHQftXJkKB4Jek24P9_sf4T7KQq_XKmVd50PGgwqaFVZJheRJSZCQ-fk&usqp=CAU"
+									<c:choose>
+										<c:when test="${ not empty post.userDto.photo }">
+											<img class="profile-pic-round" height="30"
+											src="${ post.userDto.base64String }"
 											alt="example picture">
-										<div>${ post.user.name }</div>
+										</c:when>
+										<c:otherwise>
+											<img class="profile-pic-round" height="30"
+											src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrgTTV3ncyk_ArHQftXJkKB4Jek24P9_sf4T7KQq_XKmVd50PGgwqaFVZJheRJSZCQ-fk&usqp=CAU"
+											alt="example picture">									
+										</c:otherwise>
+									</c:choose>
+										<div>${ post.userDto.name }</div>
 									</div>
 								</div>
 							</div>

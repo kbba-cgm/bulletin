@@ -8,8 +8,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.cgmgl.app.persistence.entity.Category;
 import com.cgmgl.app.persistence.entity.Post;
 import com.cgmgl.app.persistence.entity.User;
@@ -29,7 +27,7 @@ public class PostDto {
 	private List<Category> categories = new ArrayList<Category>();
 	
 	@Valid
-	private User user;
+	private UserDto userDto;
 
 	private Timestamp created_at;
 
@@ -49,7 +47,7 @@ public class PostDto {
 		title = post.getTitle();
 		content = post.getContent();
 		is_published = post.isIs_published();
-		user = post.getUser();
+		userDto = new UserDto(post.getUser());
 		categories = post.getCategories();
 		created_at = post.getCreated_at();
 		updated_at = post.getUpdated_at();
@@ -87,12 +85,12 @@ public class PostDto {
 		this.is_published = is_published;
 	}
 
-	public User getUser() {
-		return user;
+	public UserDto getUserDto() {
+		return userDto;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserDto(UserDto userDto) {
+		this.userDto = userDto;
 	}
 
 	public List<Category> getCategories() {

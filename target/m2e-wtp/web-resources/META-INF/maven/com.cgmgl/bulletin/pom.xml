@@ -16,6 +16,9 @@
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		<jakarta.validation.version>2.0.2</jakarta.validation.version>
 		<apache.tile.version>3.0.5</apache.tile.version>
+		<jdk.version>1.8</jdk.version>
+		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<maven-war-plugin.version>3.3.2</maven-war-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -177,6 +180,23 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-plugin.version}</version>
+			</plugin>
+		</plugins>
+
 		<finalName>bulletin</finalName>
 	</build>
 </project>

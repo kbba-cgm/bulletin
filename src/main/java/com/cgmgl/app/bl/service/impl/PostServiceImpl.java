@@ -1,6 +1,7 @@
 package com.cgmgl.app.bl.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cgmgl.app.bl.dto.PostDto;
-import com.cgmgl.app.bl.dto.auth.AuthUser;
 import com.cgmgl.app.bl.service.PostService;
 import com.cgmgl.app.persistence.dao.PostDao;
 import com.cgmgl.app.persistence.entity.Post;
+import com.cgmgl.app.persistence.entity.User;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -24,8 +25,15 @@ public class PostServiceImpl implements PostService {
 		return postDao.getAllPost();
 	}
 	
-	public List<Post> getPublicPost() {
-		return postDao.getPublicPost();
+	public List<PostDto> getPublicPost() {
+		List<PostDto> list = new ArrayList<>();
+		ArrayList<Post> postList = (ArrayList<Post>) postDao.getPublicPost();
+		
+		for (Post post : postList) {
+			list.add(new PostDto(post));
+		}
+		
+		return list;
 	}
 	
 	public List<Post> getOwnPost(long id) {
@@ -63,7 +71,7 @@ public class PostServiceImpl implements PostService {
 		post.setContent(postDto.getContent());
 		post.setTitle(postDto.getTitle());
 		post.setIs_published(postDto.isIs_published());
-		post.setUser(postDto.getUser());
+		post.setUser(new User(postDto.getUserDto()));
 		post.setCategories(postDto.getCategories()); 
 		post.setCreated_at(postDto.getCreated_at());
 		post.setUpdated_at(postDto.getUpdated_at());

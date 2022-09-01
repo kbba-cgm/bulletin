@@ -2,15 +2,16 @@ package com.cgmgl.app.bl.dto;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List; 
+import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import com.cgmgl.app.bl.common.Common;
 import com.cgmgl.app.persistence.entity.Post;
 import com.cgmgl.app.persistence.entity.Role;
 import com.cgmgl.app.persistence.entity.User;
 
-public class UserDto {	
+public class UserDto {
 	private long id;
 
 	@NotEmpty
@@ -24,11 +25,13 @@ public class UserDto {
 	private String password;
 
 	private List<Post> posts;
-	
+
 	private Role role;
-	
+
 	private String photo;
-	
+
+	private String base64String;
+
 	private String imageString;
 
 	public String getImageString() {
@@ -41,11 +44,11 @@ public class UserDto {
 
 	private Timestamp created_at;
 	private Timestamp updated_at;
-	
+
 	public UserDto() {
 
 	}
-	
+
 	public UserDto(User user) {
 		this.id = user.getId();
 		this.name = user.getName();
@@ -57,7 +60,7 @@ public class UserDto {
 		this.created_at = user.getCreated_at();
 		this.updated_at = user.getUpdated_at();
 	}
-	
+
 	public UserDto(UserEditDto userEditDto) throws IOException {
 		this.id = userEditDto.getId();
 		this.name = userEditDto.getName();
@@ -139,11 +142,18 @@ public class UserDto {
 		this.updated_at = updated_at;
 	}
 
+	public String getBase64String() throws IOException {
+		return Common.fileToBase64String(photo);
+	}
+
+	public void setBase64String(String base64String) {
+		this.base64String = base64String;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDto [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", posts="
-				+ posts + ", role=" + role + ", created_at=" + created_at + ", updated_at="
-				+ updated_at + "]";
+				+ posts + ", role=" + role + ", created_at=" + created_at + ", updated_at=" + updated_at + "]";
 	}
 
 }

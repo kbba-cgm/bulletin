@@ -1,16 +1,12 @@
 package com.cgmgl.app.bl.dto;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import org.apache.commons.codec.binary.Base64;
-
+import com.cgmgl.app.bl.common.Common;
 import com.cgmgl.app.persistence.entity.Role;
 
 public class UserEditDto {
@@ -94,21 +90,7 @@ public class UserEditDto {
 	}
 
 	public String getBase64String() throws IOException {
-		String base64Img = null;
-		if (photo != null && !photo.isEmpty()) {
-			String filePath = photo;
-			File file = new File(filePath);
-			if (file.getAbsoluteFile().exists()) {
-				FileInputStream fis = new FileInputStream(file);
-				byte byteArray[] = new byte[(int) file.length()];
-				fis.read(byteArray);
-				String imageString = "data:image/png;base64," + Base64.encodeBase64String(byteArray);
-
-				base64Img = imageString;
-			}
-		}
-
-		return base64Img;
+		return Common.fileToBase64String(photo);
 	}
 
 	public void setBase64String(String base64String) {

@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cgmgl.app.persistence.dao.AbstractDao;
 import com.cgmgl.app.persistence.dao.PostDao;
 import com.cgmgl.app.persistence.entity.Post;
-import com.cgmgl.app.persistence.entity.User;
 
 @Transactional
 @Repository

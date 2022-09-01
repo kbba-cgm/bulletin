@@ -1,6 +1,5 @@
 package com.cgmgl.app.web.filter.posts;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +30,6 @@ public class PostActionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		Map<String, String> path_urls = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-		System.out.println(path_urls);
-		
 		
 		if (path_urls.isEmpty())
 			return true;			
@@ -40,7 +37,6 @@ public class PostActionInterceptor implements HandlerInterceptor {
 		try {
 			id = Long.parseLong(path_urls.get("id"));	
 		}catch (Exception e) {
-			System.out.println("here");
 			response.sendRedirect(request.getContextPath() + "/denied");
 			return true;
 		}
@@ -48,7 +44,7 @@ public class PostActionInterceptor implements HandlerInterceptor {
 		PostDto postDto = postService.getPostById(id);
 		AuthUser authUser = myAuthenticationService.getPrincipal();
 		
-		if(postDto.getUser().getId() != authUser.getId())
+		if(postDto.getUserDto().getId() != authUser.getId())
 			response.sendRedirect(request.getContextPath() + "/denied");
 		
 		return true;
@@ -64,7 +60,6 @@ public class PostActionInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		if(ex.getMessage() != null) {
-			System.out.println("reach here");
 			response.sendRedirect(request.getContextPath() + "/denied");
 			return;
 		}else {
@@ -74,7 +69,6 @@ public class PostActionInterceptor implements HandlerInterceptor {
 	
 	@ExceptionHandler({NumberFormatException.class})
     public String handleException(Exception ex) {
-		System.out.println("handler ex");
         return "denied-page";
     }
 	
